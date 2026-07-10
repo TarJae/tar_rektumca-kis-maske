@@ -1,0 +1,32 @@
+# Rektumkarzinom KIS Eingabemaske
+
+Lokale, statische Eingabemaske zur strukturierten Dokumentation von Rektumkarzinom-Fällen für KIS-/Tumorboard-Zusammenfassungen.
+
+## Start
+
+Einfach `index.html` im Browser öffnen.
+
+Optional mit lokalem Webserver:
+
+```bash
+python3 -m http.server 8080
+```
+
+Danach: <http://localhost:8080>
+
+## Datenschutz
+
+- Keine echten Patientendaten in dieses Repository committen.
+- Die Maske fragt bewusst keine Namen, Geburtsdaten, Adressen oder Kontaktinformationen ab.
+- Die Anwendung speichert nichts automatisch und überträgt keine Daten an Server.
+- Exportierte JSON-Dateien können Patientendaten enthalten, wenn Anwender sie eingeben; diese Dateien sind per `.gitignore` ausgeschlossen.
+
+## Funktionen
+
+- Pflichtfeldprüfung
+- Fortschrittsanzeige
+- Plausible Struktur für Diagnostik, Staging, Therapie, OP/Pathologie und Nachsorge
+- Erzeugung einer KIS-Zusammenfassung
+- Kopieren der Zusammenfassung in die Zwischenablage
+- JSON-Export für lokale Weiterverarbeitung
+- Warnung bei typischen personenbezogenen Datenmustern wie Geburtsdatum, E-Mail, Telefonnummer oder Versichertennummer

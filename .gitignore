@@ -1,0 +1,37 @@
+# Betriebssysteme
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editoren / IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Logs und temporäre Dateien
+*.log
+*.tmp
+*.temp
+tmp/
+temp/
+.cache/
+
+# Abhängigkeiten / Build-Artefakte
+node_modules/
+dist/
+build/
+coverage/
+
+# Python lokale Dateien
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# Lokale Exporte mit potenziellen Falldaten
+*_rektumca_kis.json
+exports/
+patientendaten/
+patient-data/

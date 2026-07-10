@@ -1,0 +1,231 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Rektumkarzinom KIS Eingabemaske</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="app-header">
+    <div>
+      <p class="eyebrow">KIS Dokumentationshilfe</p>
+      <h1>Rektumkarzinom Eingabemaske</h1>
+      <p class="lead">Strukturierte, lokale Erfassung für Tumorboard, Verlauf und KIS-Übernahme.</p>
+    </div>
+    <div class="status-card" aria-live="polite">
+      <span class="status-dot" id="completionDot"></span>
+      <strong id="completionText">0% vollständig</strong>
+      <small>Pflichtfelder werden lokal geprüft.</small>
+    </div>
+  </header>
+
+  <main>
+    <aside class="notice" role="note">
+      <strong>Datenschutz:</strong> Bitte keine Namen, Geburtsdaten, Adressen oder echten Patientendaten eingeben. Das Formular speichert nichts automatisch und arbeitet ausschließlich im Browser.
+    </aside>
+
+    <form id="kisForm" novalidate>
+      <section class="card">
+        <h2>1. Fallkontext</h2>
+        <div class="grid two">
+          <label>Interne Fall-ID / Pseudonym <span>*</span>
+            <input name="caseId" required placeholder="z. B. Rektum-001">
+          </label>
+          <label>Erfassungsdatum <span>*</span>
+            <input name="entryDate" type="date" required>
+          </label>
+          <label>Behandelnde Einheit
+            <input name="unit" placeholder="z. B. Viszeralchirurgie">
+          </label>
+          <label>Tumorboard-Datum
+            <input name="boardDate" type="date">
+          </label>
+        </div>
+      </section>
+
+      <section class="card">
+        <h2>2. Diagnostik</h2>
+        <div class="grid two">
+          <label>Diagnosesicherung <span>*</span>
+            <select name="diagnosisConfirmed" required>
+              <option value="">Bitte wählen</option>
+              <option>Histologisch gesichert</option>
+              <option>Klinischer Verdacht</option>
+              <option>Rezidivverdacht</option>
+            </select>
+          </label>
+          <label>Histologie
+            <select name="histology">
+              <option value="">Bitte wählen</option>
+              <option>Adenokarzinom</option>
+              <option>Muzinöses Adenokarzinom</option>
+              <option>Siegelringzellkarzinom</option>
+              <option>Andere</option>
+            </select>
+          </label>
+          <label>Tumorabstand ab ano (cm) <span>*</span>
+            <input name="distanceAnalVerge" type="number" min="0" max="25" step="0.1" required>
+          </label>
+          <label>CEA (ng/ml)
+            <input name="cea" type="number" min="0" step="0.1">
+          </label>
+        </div>
+        <label>Befund / Bemerkungen
+          <textarea name="diagnosticNotes" rows="3" placeholder="Keine identifizierenden Angaben eintragen."></textarea>
+        </label>
+      </section>
+
+      <section class="card">
+        <h2>3. Staging und MRT</h2>
+        <div class="grid three">
+          <label>cT <span>*</span>
+            <select name="ct" required>
+              <option value="">–</option>
+              <option>cT1</option><option>cT2</option><option>cT3a</option><option>cT3b</option><option>cT3c</option><option>cT3d</option><option>cT4a</option><option>cT4b</option>
+            </select>
+          </label>
+          <label>cN <span>*</span>
+            <select name="cn" required>
+              <option value="">–</option>
+              <option>cN0</option><option>cN1</option><option>cN2</option><option>cNx</option>
+            </select>
+          </label>
+          <label>cM <span>*</span>
+            <select name="cm" required>
+              <option value="">–</option>
+              <option>cM0</option><option>cM1</option><option>cMx</option>
+            </select>
+          </label>
+          <label>MRF/CRM
+            <select name="mrf">
+              <option value="">Bitte wählen</option>
+              <option>Nicht bedroht</option>
+              <option>Bedroht (&lt; 1 mm)</option>
+              <option>Nicht beurteilbar</option>
+            </select>
+          </label>
+          <label>EMVI
+            <select name="emvi">
+              <option value="">Bitte wählen</option>
+              <option>Negativ</option>
+              <option>Positiv</option>
+              <option>Nicht beurteilbar</option>
+            </select>
+          </label>
+          <label>Sphinkter-/Levatorbezug
+            <select name="sphincter">
+              <option value="">Bitte wählen</option>
+              <option>Kein Bezug</option>
+              <option>Infiltration/Verdacht</option>
+              <option>Nicht beurteilbar</option>
+            </select>
+          </label>
+        </div>
+      </section>
+
+      <section class="card">
+        <h2>4. Therapieplanung</h2>
+        <div class="grid two">
+          <label>Primäre Empfehlung <span>*</span>
+            <select name="recommendation" required>
+              <option value="">Bitte wählen</option>
+              <option>Primäre Operation</option>
+              <option>Neoadjuvante Radiochemotherapie</option>
+              <option>Total neoadjuvante Therapie (TNT)</option>
+              <option>Systemtherapie</option>
+              <option>Watch & Wait</option>
+              <option>Best supportive care</option>
+            </select>
+          </label>
+          <label>OP-Verfahren geplant
+            <select name="operationPlanned">
+              <option value="">Bitte wählen</option>
+              <option>TME tiefe anteriore Rektumresektion</option>
+              <option>Abdominoperineale Rektumexstirpation</option>
+              <option>Lokale Exzision/TAMIS/TEMS</option>
+              <option>Hartmann-Operation</option>
+              <option>Keine OP geplant</option>
+            </select>
+          </label>
+        </div>
+        <label>Tumorboard-Beschluss
+          <textarea name="boardDecision" rows="4" placeholder="Therapieempfehlung ohne identifizierende Daten."></textarea>
+        </label>
+      </section>
+
+      <section class="card">
+        <h2>5. Verlauf / OP / Pathologie</h2>
+        <div class="grid three">
+          <label>Therapiestatus
+            <select name="therapyStatus">
+              <option value="">Bitte wählen</option>
+              <option>Geplant</option>
+              <option>Laufend</option>
+              <option>Abgeschlossen</option>
+              <option>Abgebrochen</option>
+            </select>
+          </label>
+          <label>OP-Datum
+            <input name="operationDate" type="date">
+          </label>
+          <label>R-Status
+            <select name="rStatus">
+              <option value="">–</option>
+              <option>R0</option><option>R1</option><option>R2</option><option>Rx</option>
+            </select>
+          </label>
+          <label>yp/pT
+            <input name="pt" placeholder="z. B. ypT2">
+          </label>
+          <label>yp/pN
+            <input name="pn" placeholder="z. B. ypN0">
+          </label>
+          <label>Regression/TRG
+            <input name="trg" placeholder="z. B. TRG 2">
+          </label>
+        </div>
+      </section>
+
+      <section class="card">
+        <h2>6. Nachsorge</h2>
+        <div class="grid two">
+          <label>Nächster Kontrolltermin
+            <input name="followUpDate" type="date">
+          </label>
+          <label>Nachsorgeplan
+            <select name="followUpPlan">
+              <option value="">Bitte wählen</option>
+              <option>Leitliniengerechte Nachsorge</option>
+              <option>Engmaschige Kontrolle</option>
+              <option>Palliative Verlaufskontrolle</option>
+              <option>Individuell</option>
+            </select>
+          </label>
+        </div>
+        <label>Offene Punkte
+          <textarea name="openIssues" rows="3"></textarea>
+        </label>
+      </section>
+
+      <section class="actions">
+        <button type="submit">Zusammenfassung erzeugen</button>
+        <button type="button" id="copyBtn">Zusammenfassung kopieren</button>
+        <button type="button" id="downloadBtn">JSON herunterladen</button>
+        <button type="reset" class="secondary">Zurücksetzen</button>
+      </section>
+    </form>
+
+    <section class="card output-card">
+      <h2>KIS-Zusammenfassung</h2>
+      <pre id="summary" aria-live="polite">Noch keine Zusammenfassung erzeugt.</pre>
+    </section>
+  </main>
+
+  <footer>
+    <small>Lokale Eingabemaske – keine automatische Speicherung, keine Übertragung.</small>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
