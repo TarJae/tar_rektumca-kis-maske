@@ -8,8 +8,6 @@ const completionDot = document.querySelector('#completionDot');
 const fieldLabels = {
   caseId: 'Fall-ID / Pseudonym',
   entryDate: 'Erfassungsdatum',
-  unit: 'Behandelnde Einheit',
-  boardDate: 'Tumorboard-Datum',
   diagnosisConfirmed: 'Diagnosesicherung',
   histology: 'Histologie',
   distanceAnalVerge: 'Tumorabstand ab ano',
@@ -58,8 +56,6 @@ function buildSummary(data) {
     '=================================================',
     `Fall-ID/Pseudonym: ${formatValue(data.caseId)}`,
     `Erfassungsdatum: ${formatValue(data.entryDate)}`,
-    `Einheit: ${formatValue(data.unit)}`,
-    `Tumorboard-Datum: ${formatValue(data.boardDate)}`,
     '',
     'Diagnostik',
     `- Diagnosesicherung: ${formatValue(data.diagnosisConfirmed)}`,
