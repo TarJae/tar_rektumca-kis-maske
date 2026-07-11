@@ -47,50 +47,71 @@ function formDataToObject() {
   return Object.fromEntries(new FormData(form).entries());
 }
 
+function hasValue(value) {
+  return String(value || '').trim().length > 0;
+}
+
 function formatValue(value, suffix = '') {
   const trimmed = String(value || '').trim();
-  return trimmed ? `${trimmed}${suffix}` : '—';
+  return trimmed ? `${trimmed}${suffix}` : '';
+}
+
+function buildSection(title, rows) {
+  const lines = rows
+    .map(row => {
+      const value = formatValue(row.value, row.suffix || '');
+      return value ? `- ${row.label}: ${value}` : '';
+    })
+    .filter(Boolean);
+
+  return lines.length ? ['', title, ...lines] : [];
 }
 
 function buildSummary(data) {
   const staging = [data.ct, data.cn, data.cm].filter(Boolean).join(' ');
-  return [
+  const lines = [
     'Rektumkarzinom – strukturierte KIS-Zusammenfassung',
-    '=================================================',
-    `Fall-ID/Pseudonym: ${formatValue(data.caseId)}`,
-    `Erfassungsdatum: ${formatValue(data.entryDate)}`,
-    '',
-    'Diagnostik',
-    `- Diagnosesicherung: ${formatValue(data.diagnosisConfirmed)}`,
-    `- Histologie: ${formatValue(data.histology)}`,
-    `- Tumorabstand ab ano: ${formatValue(data.distanceAnalVerge, ' cm')}`,
-    `- CEA: ${formatValue(data.cea, ' ng/ml')}`,
-    `- Bemerkungen: ${formatValue(data.diagnosticNotes)}`,
-    '',
-    'Staging / MRT',
-    `- Klinisches Stadium: ${formatValue(staging)}`,
-    `- MRF/CRM: ${formatValue(data.mrf)}`,
-    `- EMVI: ${formatValue(data.emvi)}`,
-    `- Sphinkter-/Levatorbezug: ${formatValue(data.sphincter)}`,
-    '',
-    'Therapieplanung',
-    `- Empfehlung: ${formatValue(data.recommendation)}`,
-    `- OP-Verfahren geplant: ${formatValue(data.operationPlanned)}`,
-    `- Tumorboard-Beschluss: ${formatValue(data.boardDecision)}`,
-    '',
-    'Verlauf / OP / Pathologie',
-    `- Therapiestatus: ${formatValue(data.therapyStatus)}`,
-    `- OP-Datum: ${formatValue(data.operationDate)}`,
-    `- R-Status: ${formatValue(data.rStatus)}`,
-    `- yp/pT: ${formatValue(data.pt)}`,
-    `- yp/pN: ${formatValue(data.pn)}`,
-    `- Regression/TRG: ${formatValue(data.trg)}`,
-    '',
-    'Nachsorge',
-    `- Nächster Kontrolltermin: ${formatValue(data.followUpDate)}`,
-    `- Plan: ${formatValue(data.followUpPlan)}`,
-    `- Offene Punkte: ${formatValue(data.openIssues)}`
-  ].join('\n');
+    '================================================='
+  ];
+
+  if (hasValue(data.caseId)) lines.push(`Fall-ID/Pseudonym: ${formatValue(data.caseId)}`);
+  if (hasValue(data.entryDate)) lines.push(`Erfassungsdatum: ${formatValue(data.entryDate)}`);
+
+  lines.push(
+    ...buildSection('Diagnostik', [
+      { label: 'Diagnosesicherung', value: data.diagnosisConfirmed },
+      { label: 'Histologie', value: data.histology },
+      { label: 'Tumorabstand ab ano', value: data.distanceAnalVerge, suffix: ' cm' },
+      { label: 'CEA', value: data.cea, suffix: ' ng/ml' },
+      { label: 'Bemerkungen', value: data.diagnosticNotes }
+    ]),
+    ...buildSection('Staging / MRT', [
+      { label: 'Klinisches Stadium', value: staging },
+      { label: 'MRF/CRM', value: data.mrf },
+      { label: 'EMVI', value: data.emvi },
+      { label: 'Sphinkter-/Levatorbezug', value: data.sphincter }
+    ]),
+    ...buildSection('Therapieplanung', [
+      { label: 'Empfehlung', value: data.recommendation },
+      { label: 'OP-Verfahren geplant', value: data.operationPlanned },
+      { label: 'Tumorboard-Beschluss', value: data.boardDecision }
+    ]),
+    ...buildSection('Verlauf / OP / Pathologie', [
+      { label: 'Therapiestatus', value: data.therapyStatus },
+      { label: 'OP-Datum', value: data.operationDate },
+      { label: 'R-Status', value: data.rStatus },
+      { label: 'yp/pT', value: data.pt },
+      { label: 'yp/pN', value: data.pn },
+      { label: 'Regression/TRG', value: data.trg }
+    ]),
+    ...buildSection('Nachsorge', [
+      { label: 'Nächster Kontrolltermin', value: data.followUpDate },
+      { label: 'Plan', value: data.followUpPlan },
+      { label: 'Offene Punkte', value: data.openIssues }
+    ])
+  );
+
+  return lines.join('\n');
 }
 
 function detectPotentialPii(data) {
