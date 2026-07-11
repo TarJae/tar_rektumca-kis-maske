@@ -19,7 +19,7 @@ Danach: <http://localhost:8080>
 - Keine echten Patientendaten in dieses Repository committen.
 - Die Maske fragt bewusst keine Namen, Geburtsdaten, Adressen oder Kontaktinformationen ab.
 - Die Anwendung speichert nichts automatisch und überträgt keine Daten an Server.
-- Exportierte JSON-Dateien können Patientendaten enthalten, wenn Anwender sie eingeben; diese Dateien sind per `.gitignore` ausgeschlossen.
+- Exportierte JSON-/CSV-Dateien können Patientendaten enthalten, wenn Anwender sie eingeben; diese Dateien sind per `.gitignore` ausgeschlossen.
 
 ## Funktionen
 
@@ -29,4 +29,5 @@ Danach: <http://localhost:8080>
 - Erzeugung einer KIS-Zusammenfassung
 - Kopieren der Zusammenfassung in die Zwischenablage
 - JSON-Export für lokale Weiterverarbeitung
+- CSV-Export mit Semikolon-Trennung und UTF-8-BOM für Excel/LibreOffice
 - Warnung bei typischen personenbezogenen Datenmustern wie Geburtsdatum, E-Mail, Telefonnummer oder Versichertennummer

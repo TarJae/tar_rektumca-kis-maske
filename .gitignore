@@ -32,6 +32,7 @@ venv/
 
 # Lokale Exporte mit potenziellen Falldaten
 *_rektumca_kis.json
+*_rektumca_kis.csv
 exports/
 patientendaten/
 patient-data/

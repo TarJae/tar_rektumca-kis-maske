@@ -2,6 +2,7 @@ const form = document.querySelector('#kisForm');
 const summary = document.querySelector('#summary');
 const copyBtn = document.querySelector('#copyBtn');
 const downloadBtn = document.querySelector('#downloadBtn');
+const csvBtn = document.querySelector('#csvBtn');
 const completionText = document.querySelector('#completionText');
 const completionDot = document.querySelector('#completionDot');
 
@@ -32,6 +33,8 @@ const fieldLabels = {
   followUpPlan: 'Nachsorgeplan',
   openIssues: 'Offene Punkte'
 };
+
+const csvFieldOrder = Object.keys(fieldLabels);
 
 const piiPatterns = [
   { name: 'Geburtsdatum', regex: /\b(?:0?[1-9]|[12][0-9]|3[01])[./-](?:0?[1-9]|1[0-2])[./-](?:19|20)\d{2}\b/ },
@@ -138,6 +141,19 @@ function updateCompletion() {
   else if (percent > 0) completionDot.classList.add('partial');
 }
 
+function safeFileId(data) {
+  return (data.caseId || 'fall').replace(/[^a-z0-9_-]/gi, '_');
+}
+
+function triggerDownload(blob, filename) {
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement('a');
+  link.href = url;
+  link.download = filename;
+  link.click();
+  URL.revokeObjectURL(url);
+}
+
 function downloadJson(data) {
   const payload = {
     schema: 'rektumkarzinom-kis-eingabemaske/v1',
@@ -145,13 +161,31 @@ function downloadJson(data) {
     data
   };
   const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
-  const url = URL.createObjectURL(blob);
-  const link = document.createElement('a');
-  const safeId = (data.caseId || 'fall').replace(/[^a-z0-9_-]/gi, '_');
-  link.href = url;
-  link.download = `${safeId}_rektumca_kis.json`;
-  link.click();
-  URL.revokeObjectURL(url);
+  triggerDownload(blob, `${safeFileId(data)}_rektumca_kis.json`);
+}
+
+function escapeCsvValue(value) {
+  const normalized = String(value || '').replace(/[\r\n]+/g, ' ').trim();
+  return `"${normalized.replace(/"/g, '""')}"`;
+}
+
+function buildCsv(data) {
+  const columns = ['schema', 'exportedAt', ...csvFieldOrder];
+  const row = [
+    'rektumkarzinom-kis-eingabemaske/v1',
+    new Date().toISOString(),
+    ...csvFieldOrder.map(field => data[field] || '')
+  ];
+
+  return [columns, row]
+    .map(values => values.map(escapeCsvValue).join(';'))
+    .join('\r\n');
+}
+
+function downloadCsv(data) {
+  const csvWithBom = `\ufeff${buildCsv(data)}`;
+  const blob = new Blob([csvWithBom], { type: 'text/csv;charset=utf-8' });
+  triggerDownload(blob, `${safeFileId(data)}_rektumca_kis.csv`);
 }
 
 form.addEventListener('submit', event => {
@@ -185,6 +219,13 @@ downloadBtn.addEventListener('click', () => {
   const data = formDataToObject();
   summary.textContent = buildSummary(data);
   downloadJson(data);
+});
+
+csvBtn.addEventListener('click', () => {
+  if (!validateForm()) return;
+  const data = formDataToObject();
+  summary.textContent = buildSummary(data);
+  downloadCsv(data);
 });
 
 const today = new Date().toISOString().slice(0, 10);
