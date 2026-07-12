@@ -14,6 +14,10 @@ python3 -m http.server 8080
 
 Danach: <http://localhost:8080>
 
+## Deployment / Domain
+
+Die Anwendung ist für GitHub Pages vorbereitet. Die Custom Domain ist über `CNAME` auf `daktyloi.com` gesetzt. DNS-seitig muss `daktyloi.com` auf GitHub Pages zeigen.
+
 ## Datenschutz
 
 - Keine echten Patientendaten in dieses Repository committen.
